@@ -1,0 +1,78 @@
+<p id="notice"><%= notice %></p>
+<% if @movie.errors.any? %>
+  <div id="error_explanation">
+    <h2><%= pluralize(@movie.errors.count, "error") %> prohibited this movie from being saved:</h2>
+
+    <ul>
+    <% @movie.errors.full_messages.each do |msg| %>
+      <li><%= msg %></li>
+    <% end %>
+    </ul>
+  </div>
+<% end %>
+<p>
+  <b>Title:</b>
+  <%= @movie.title %>
+</p>
+
+<p>
+  <b>Description:</b>
+  <%= @movie.description %>
+</p>
+
+<p>
+  <b>Rating:</b>
+  <%= @movie.rating %>
+</p>
+
+<p>
+  <b>Usuario:</b>
+  <%= @movie.user ? @movie.user.email : 'no hay'%>
+</p>
+<p>
+  <b>Calificacion:</b>
+  <%= @movie.av_calif  %>
+</p>
+<%= form_tag({:controller=>'movies', :action=>'calif', :id=>@movie.id}, :method => "post") do %>
+  <%= select_tag(:value, options_for_select([1,2,3,4,5])) %>
+  <%= submit_tag("Calificar") %>
+<% end %>
+
+<h2>Comenta</h2>
+<%= form_for(@review) do |f| %>
+  <% if @review.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@review.errors.count, "error") %> prohibited this review from being saved:</h2>
+
+      <ul>
+      <% @review.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="actions">
+  <div class="field">
+  <%= f.hidden_field :movie_id %>
+  <%= f.text_area :description %>
+  </div>
+    <%= f.submit "Comenta" %>
+  </div>
+<% end %>
+
+<h2>Comentarios</h2>
+<table>
+<% @movie.reviews.each do |review| %>
+  <tr>
+    <td><%=  review.description %></td>
+  </tr>
+<% end %>
+</table>
+
+
+
+
+
+<%= link_to 'Edit', edit_movie_path(@movie) %> |
+<%= link_to 'Back', movies_path %>

@@ -1,4 +1,14 @@
 Pelicula::Application.routes.draw do
+  devise_for :users
+
+  root :to => 'movies#search'
+
+  get '/movies/search' => 'movies#search'
+  match '/movies/calif/:id' => 'movies#calif'
+  resources :movies
+  resources :reviews
+
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
